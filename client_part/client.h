@@ -17,7 +17,7 @@
 # define END '\0'
 
 # define EXPECTED_ARGC 3
-# define TIME_LIMIT 600000
+# define TIME_LIMIT 1200000
 # define INTERVAL 100
 # define CONNECTING_TIME_LIMIT 2400000
 # define ATTEMPTS_LIMIT 3
