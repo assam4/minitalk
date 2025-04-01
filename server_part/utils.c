@@ -1,13 +1,21 @@
 #include "server.h"
 
+static void	reset_params(void)
+{
+	free(g_server->message);
+	g_server->message = NULL;
+	g_server->capacity = 0;
+	g_server->count = 0;
+	g_server->byte = 0;
+}
+
 void	turn_next(void)
 {
 	t_list	*temp;
 	int		wait_time;
 
+	reset_params();
 	g_server->connected = PAUSE;
-	g_server->byte = 0;
-	g_server->count = 0;
 	kill(top(), SIGUSR1);
 	while (g_server->connected == PAUSE)
 	{
@@ -28,6 +36,35 @@ void	turn_next(void)
 	}
 }
 
+static void	add_to_message(void)
+{
+	char	*temp;
+
+	temp = NULL;
+	if (!g_server->capacity
+		|| (int)ft_strlen(g_server->message) == g_server->capacity - 1)
+	{
+		if (g_server->capacity)
+		{
+			temp = g_server->message;
+			g_server->capacity = g_server->capacity * 2 - 1;
+		}
+		else
+			g_server->capacity = ALLOCATION_SIZE;
+		g_server->message = ft_calloc(g_server->capacity, sizeof(char));
+		if (!g_server->message)
+		{
+			deallocate_server();
+			free(temp);
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (temp)
+		ft_strlcpy(g_server->message, temp, ft_strlen(temp) + 1);
+	free(temp);
+	g_server->message[ft_strlen(g_server->message)] = g_server->byte;
+}
+
 void	add_bit(int signal)
 {
 	if (signal == SIGUSR2)
@@ -38,11 +75,14 @@ void	add_bit(int signal)
 		g_server->count = 0;
 		if (g_server->byte == '\0')
 		{
-			write(STDOUT_FILENO, "\n", sizeof(char));
+			write(STDOUT_FILENO,
+				g_server->message,
+				ft_strlen(g_server->message));
+			write(STDOUT_FILENO, "\n", 1);
 			turn_next();
 		}
 		else
-			write(STDOUT_FILENO, &(g_server->byte), sizeof(char));
+			add_to_message();
 		g_server->byte = 0;
 	}
 }
@@ -59,9 +99,4 @@ t_list	*new_client(pid_t client_id)
 		return (free(new_client), NULL);
 	*(pid_t *)new_client->content = client_id;
 	return (new_client);
-}
-
-pid_t	top(void)
-{
-	return (*((pid_t *)g_server->queue->content));
 }

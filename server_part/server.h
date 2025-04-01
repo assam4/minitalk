@@ -9,10 +9,11 @@
 # define END '\n'
 # define ON 1
 # define PAUSE 0
-# define TIME_LIMIT 600000
-# define CONNECTING_TIME_LIMIT 12000000
-# define INTERVAL 50
-# define ATTEMPTS_LIMIT 10
+# define TIME_LIMIT 12000
+# define CONNECTING_TIME_LIMIT 240000
+# define INTERVAL 100
+# define ATTEMPTS_LIMIT 15
+# define ALLOCATION_SIZE 1001
 
 # define UNDEFINED -1
 
@@ -25,12 +26,15 @@ typedef struct s_signal_data
 	int				signal;
 	int				count;
 	int				connected;
+	int				capacity;
+	char		*message;
 	unsigned char	byte;
 	t_list			*queue;
 }	t_signal_data;
 
 extern t_signal_data	*g_server;
 
+void	deallocate_server(void);
 void	add_bit(int signal);
 void	turn_next(void);
 t_list	*new_client(pid_t client_id);

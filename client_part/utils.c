@@ -36,6 +36,8 @@ static void	send_letter(pid_t server_id, unsigned char letter, int attempts)
 		attempts = ATTEMPTS_LIMIT;
 		--bit;
 		usleep(100);
+		if (letter == END && bit < 0)
+			exit(EXIT_SUCCESS);
 	}
 }
 

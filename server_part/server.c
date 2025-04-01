@@ -2,6 +2,19 @@
 
 t_signal_data	*g_server;
 
+pid_t	top(void)
+{
+	return (*((pid_t *)g_server->queue->content));
+}
+
+void	deallocate_server(void)
+{
+	free(g_server->message);
+	ft_lstclear(&(g_server->queue), free);
+	free(g_server);
+	g_server = NULL;
+}
+
 static void	handle_signal(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
@@ -72,5 +85,6 @@ int	main(void)
 		pause();
 		servicing();
 	}
+	deallocate_server();
 	return (EXIT_SUCCESS);
 }
