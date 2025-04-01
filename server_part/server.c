@@ -33,7 +33,7 @@ static void	servicing(void)
 	attempts = ATTEMPTS_LIMIT;
 	while (g_server->queue)
 	{
-		wait_time = CONNECTING_TIME_LIMIT;
+		wait_time = TIME_LIMIT;
 		g_server->signal = UNDEFINED;
 		kill(top(), SIGUSR1);
 		while (g_server->signal == UNDEFINED && --attempts)

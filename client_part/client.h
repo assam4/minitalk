@@ -17,10 +17,10 @@
 # define END '\0'
 
 # define EXPECTED_ARGC 3
-# define TIME_LIMIT 1200000
+# define TIME_LIMIT 600000
 # define INTERVAL 100
-# define CONNECTING_TIME_LIMIT 2400000
-# define ATTEMPTS_LIMIT 3
+# define CONNECTING_TIME_LIMIT 1200000
+# define ATTEMPTS_LIMIT 10
 
 # define WAITING "\nServer is overloaded. Waiting ... "
 # define INVALID_ARG "\nInvalid args!.Try with correct arguments."

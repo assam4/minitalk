@@ -28,14 +28,14 @@ static void	send_letter(pid_t server_id, unsigned char letter, int attempts)
 		if (g_client.m_signal != SIG1 && --attempts)
 		{
 			waiting(TIME_LIMIT);
-			if (g_client.m_signal == SIG2)
+			if (g_client.m_signal != SIG1)
 				continue ;
 		}
 		if (g_client.m_signal != SIG1)
 			failure_exit(EXDEV, TIMEOUT);
 		attempts = ATTEMPTS_LIMIT;
 		--bit;
-		usleep(50);
+		usleep(100);
 	}
 }
 
