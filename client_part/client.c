@@ -64,13 +64,16 @@ static void	waiting_server(void)
 static void	communicate(pid_t server_id, char *message)
 {
 	int	attempts;
+	int	wait_time;
 
 	attempts = ATTEMPTS_LIMIT;
 	g_client.connected = UNDEFINED;
 	kill(server_id, SIGUSR1);
 	while (g_client.connected == UNDEFINED && --attempts)
 	{
-		usleep(TIME_LIMIT);
+		wait_time = TIME_LIMIT;
+		while (g_client.connected == UNDEFINED && --wait_time)
+			usleep(INTERVAL);
 		if (g_client.connected == UNDEFINED)
 			kill(server_id, SIGUSR1);
 	}
