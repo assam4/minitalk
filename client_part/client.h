@@ -25,7 +25,7 @@
 # define WAITING "\nServer is overloaded. Waiting ... "
 # define INVALID_ARG "\nInvalid args!.Try with correct arguments."
 # define TIMEOUT "\nTimeout! Server did not respond!.(attempts end)"
-# define CONNECTING_TIMEOUT "\nTimeout! Server did not respond to connecting.10min"
+# define CONNECTING_TIMEOUT "\nTimeout! Server didn't respond to connecting."
 
 typedef struct s_client
 {
