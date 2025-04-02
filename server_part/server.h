@@ -35,6 +35,7 @@ typedef struct s_signal_data
 extern t_signal_data	*g_server;
 
 void	deallocate_server(void);
+void	print_message(void);
 void	add_bit(int signal);
 void	turn_next(void);
 t_list	*new_client(pid_t client_id);

@@ -9,7 +9,7 @@ SERVER_DIR = ./server_part/
 CLIENT_DIR = ./client_part/
 INCLUDES = -I$(PRINTF_DIR)libft/ -I$(PRINTF_DIR) -I$(SERVER_DIR) 
 
-SERVER_SRC = $(SERVER_DIR)server.c $(SERVER_DIR)utils.c
+SERVER_SRC = $(SERVER_DIR)server.c $(SERVER_DIR)utils.c $(SERVER_DIR)unicode.c
 SERVER_OBJ = $(SERVER_SRC:.c=.o)
 
 CLIENT_SRC = $(CLIENT_DIR)client.c $(CLIENT_DIR)utils.c

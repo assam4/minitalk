@@ -75,10 +75,7 @@ void	add_bit(int signal)
 		g_server->count = 0;
 		if (g_server->byte == '\0')
 		{
-			write(STDOUT_FILENO,
-				g_server->message,
-				ft_strlen(g_server->message));
-			write(STDOUT_FILENO, "\n", 1);
+			print_message();
 			turn_next();
 		}
 		else
