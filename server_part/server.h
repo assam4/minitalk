@@ -27,7 +27,7 @@ typedef struct s_signal_data
 	int				count;
 	int				connected;
 	int				capacity;
-	char		*message;
+	char			*message;
 	unsigned char	byte;
 	t_list			*queue;
 }	t_signal_data;
