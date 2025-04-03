@@ -2,7 +2,7 @@ SERVER = server
 CLIENT = client
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 
 PRINTF_DIR = ./ft_printf/
 SERVER_DIR = ./server_part/
@@ -41,4 +41,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: all
+
+.PHONY: all clean fclean re bonus
