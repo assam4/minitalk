@@ -9,11 +9,10 @@
 # define END '\n'
 # define ON 1
 # define PAUSE 0
-# define TIME_LIMIT 12000
-# define CONNECTING_TIME_LIMIT 24000
-# define INTERVAL 100
-# define ATTEMPTS_LIMIT 15
-# define ALLOCATION_SIZE 1001
+# define TIME_LIMIT 20000
+# define CONNECTING_TIME_LIMIT 60000
+# define INTERVAL 50
+# define ATTEMPTS_LIMIT 10
 
 # define UNDEFINED -1
 
@@ -24,10 +23,8 @@
 typedef struct s_signal_data
 {
 	int				signal;
-	int				count;
 	int				connected;
-	int				capacity;
-	char			*message;
+	int				count;
 	unsigned char	byte;
 	t_list			*queue;
 }	t_signal_data;

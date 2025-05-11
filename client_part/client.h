@@ -17,15 +17,15 @@
 # define END '\0'
 
 # define EXPECTED_ARGC 3
-# define TIME_LIMIT 6000
-# define INTERVAL 100
-# define CONNECTING_TIME_LIMIT 60000
-# define ATTEMPTS_LIMIT 10
+# define TIME_LIMIT 20000
+# define INTERVAL 50
+# define CONNECTING_TIME_LIMIT 2400000
+# define ATTEMPTS_LIMIT 6
 
 # define WAITING "\nServer is overloaded. Waiting ... "
 # define INVALID_ARG "\nInvalid args!.Try with correct arguments."
 # define TIMEOUT "\nTimeout! Server did not respond!.(attempts end)"
-# define CONNECTING_TIMEOUT "\nTimeout! Server didn't respond to connecting."
+# define CONNECTING_TIMEOUT "\nTimeout! Server didn't respond to in 2min."
 
 typedef struct s_client
 {

@@ -9,7 +9,6 @@ pid_t	top(void)
 
 void	deallocate_server(void)
 {
-	free(g_server->message);
 	ft_lstclear(&(g_server->queue), free);
 	free(g_server);
 	g_server = NULL;
@@ -46,11 +45,11 @@ static void	servicing(void)
 	attempts = ATTEMPTS_LIMIT;
 	while (g_server->queue)
 	{
-		wait_time = TIME_LIMIT;
 		g_server->signal = UNDEFINED;
 		kill(top(), SIGUSR1);
 		while (g_server->signal == UNDEFINED && --attempts)
 		{
+			wait_time = TIME_LIMIT;
 			while (g_server->signal == UNDEFINED && --wait_time)
 				usleep(INTERVAL);
 			if (g_server->signal == UNDEFINED)
