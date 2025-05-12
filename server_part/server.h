@@ -9,10 +9,11 @@
 # define END '\n'
 # define ON 1
 # define PAUSE 0
-# define TIME_LIMIT 20000
-# define CONNECTING_TIME_LIMIT 60000
+# define TIME_LIMIT 2000
+# define CONNECTING_TIME_LIMIT 3000
 # define INTERVAL 50
-# define ATTEMPTS_LIMIT 10
+# define ATTEMPTS_LIMIT 3
+# define BUF_SIZE 1000
 
 # define UNDEFINED -1
 
@@ -22,11 +23,14 @@
 
 typedef struct s_signal_data
 {
-	int				signal;
-	int				connected;
-	int				count;
-	unsigned char	byte;
-	t_list			*queue;
+	volatile sig_atomic_t		signal;
+	volatile sig_atomic_t		connected;
+	int							count;
+	int							i;
+	unsigned char				byte;
+	t_list						*queue;
+	char						buffer[BUF_SIZE];
+
 }	t_signal_data;
 
 extern t_signal_data	*g_server;
@@ -36,6 +40,5 @@ void	print_message(void);
 void	add_bit(int signal);
 void	turn_next(void);
 t_list	*new_client(pid_t client_id);
-pid_t	top(void);
 
 #endif

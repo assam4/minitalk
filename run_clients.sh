@@ -2,25 +2,28 @@
 
 SERVER_PID=$1
 
-#./client $SERVER_PID "Message from client 1: the minitalk project is done, guys😎" &
-#./client $SERVER_PID "Message from client 2: Hello 😊" &
-#./client $SERVER_PID "Message from client 3: Barev axpers 🤣" &
-#./client $SERVER_PID "Message from client 4: ooooo yeaaahhh 🤩" &
-#wait
+# Примерные слова и эмодзи для генерации сообщений
+WORDS=("Hello" "world" "this" "is" "a" "test" "message" "from" "client" "number" "funny" "cool" "server" "communication" "smile" "great" "love" "amazing" "fast" "clean")
+EMOJIS=("😀" "🚀" "🔥" "👍" "💡" "🐧" "🎉" "💻" "🤖" "✨")
 
-#!/bin/bash
-
-SERVER_PID=$1
+generate_message() {
+    local len=$((RANDOM % 20 + 5))
+    local msg="Client $1:"
+    for _ in $(seq 1 $len); do
+        if (( RANDOM % 6 == 0 )); then
+            emoji_index=$((RANDOM % ${#EMOJIS[@]}))
+            msg+=" ${EMOJIS[$emoji_index]}"
+        else
+            word_index=$((RANDOM % ${#WORDS[@]}))
+            msg+=" ${WORDS[$word_index]}"
+        fi
+    done
+    echo "$msg"
+}
 
 for i in $(seq 1 100); do
-    # Генерация случайной строки длиной от 10 до 300 символов
-    LENGTH=$((RANDOM % 291 + 10))
-    MESSAGE="Client $i: $(head -c $LENGTH /dev/urandom | base64 | tr -dc 'a-zA-Z0-9 .!?' | head -c $LENGTH)"
-
-    # Запуск клиента в фоне
+    MESSAGE=$(generate_message $i)
     ./client "$SERVER_PID" "$MESSAGE" &
 done
 
-# Ждать завершения всех клиентов
 wait
-

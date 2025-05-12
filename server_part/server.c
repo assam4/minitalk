@@ -2,11 +2,6 @@
 
 t_signal_data	*g_server;
 
-pid_t	top(void)
-{
-	return (*((pid_t *)g_server->queue->content));
-}
-
 void	deallocate_server(void)
 {
 	ft_lstclear(&(g_server->queue), free);
@@ -18,22 +13,25 @@ static void	handle_signal(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
 	if (!g_server->queue
-		|| (top() == info->si_pid && g_server->connected == PAUSE))
+		|| (*((pid_t *)g_server->queue->content) == info->si_pid
+			&& g_server->connected == PAUSE))
 	{
 		if (!g_server->queue)
 			ft_lstadd_front(&(g_server->queue), new_client(info->si_pid));
 		else
 			ft_printf(RECONNECTED);
-		ft_printf(USER_PID, (int)top());
+		ft_printf(USER_PID, (int)(*((pid_t *)g_server->queue->content)));
 		g_server->connected = ON;
 		return ;
 	}
-	else if (g_server->queue && top() != info->si_pid)
+	else if (g_server->queue
+		&& *((pid_t *)g_server->queue->content) != info->si_pid)
 	{
 		ft_lstadd_back(&(g_server->queue), new_client(info->si_pid));
 		kill(info->si_pid, SIGUSR2);
 	}
-	else if (top() == info->si_pid && g_server->connected == ON)
+	else if (*((pid_t *)g_server->queue->content) == info->si_pid
+		&& g_server->connected == ON)
 		g_server->signal = signal;
 }
 
@@ -46,18 +44,18 @@ static void	servicing(void)
 	while (g_server->queue)
 	{
 		g_server->signal = UNDEFINED;
-		kill(top(), SIGUSR1);
+		kill(*((pid_t *)g_server->queue->content), SIGUSR1);
 		while (g_server->signal == UNDEFINED && --attempts)
 		{
 			wait_time = TIME_LIMIT;
 			while (g_server->signal == UNDEFINED && --wait_time)
 				usleep(INTERVAL);
 			if (g_server->signal == UNDEFINED)
-				kill(top(), SIGUSR2);
+				kill(*((pid_t *)g_server->queue->content), SIGUSR2);
 		}
 		if (g_server->signal == UNDEFINED)
 		{
-			ft_printf(NO_ANSWER, (int)top());
+			ft_printf(NO_ANSWER, (int)*((pid_t *)g_server->queue->content));
 			turn_next();
 		}
 		add_bit(g_server->signal);
